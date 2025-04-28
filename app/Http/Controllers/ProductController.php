@@ -7,82 +7,104 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-// class ProductController extends Controller
-// {
-//     public function index(Request $request)
-//     {
-//         $categories = Category::all();
-//         $selectedCategory = $request->input('category'); // Получаем выбранную категорию из запроса
+class ProductController extends Controller
+{
+    public function index()
+    {
+        $products = Product::with('category')->paginate(12);
+        return view('products.index', compact('products'));
+    }
 
-//         if ($selectedCategory) {
-//             $products = Product::where('id_category', $selectedCategory)->get(); // Получаем товары выбранной категории
-//         } else {
-//             $products = Product::all(); // Получаем все товары, если категория не выбрана
-//         }
+    public function create()
+    {
+        $categories = Category::all();
+        return view('products.create', compact('categories'));
+    }
 
-//         // return view('welcome', compact('categories', 'products', 'selectedCategory'));
-//     }
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name_product' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'id_category' => 'required|exists:categories,id',
+        ]);
 
-//     public function show(Product $product)
-//     {
-//         $relatedProducts = Product::where('id_category', $product->id_category)
-//             ->where('id', '!=', $product->id)
-//             ->inRandomOrder()
-//             ->limit(4)
-//             ->get();
+        // Сохраняем изображение
+        $imagePath = $request->file('image')->store('comics', 'public');
 
-//         return view('products.show', compact('product', 'relatedProducts'));
-//     }
+        Product::create([
+            'name_product' => $request->name_product,
+            'price' => $request->price,
+            'image' => $imagePath,
+            'id_category' => $request->id_category,
+        ]);
 
-//     // В ProductController.php
+        return redirect()->route('profile.show')->with('success', 'Товар успешно добавлен');
+    }
 
-//     public function edit(Product $product)
-//     {
+    
+    public function show(Product $product)
+    {
+        // Получаем рекомендуемые товары из той же категории
+        $recommendedProducts = Product::where('id_category', $product->id_category)
+            ->where('id', '!=', $product->id)
+            ->inRandomOrder()
+            ->take(5)
+            ->get();
+        
+        return view('products.show', compact('product', 'recommendedProducts'));
+    }
 
-//         $categories = Category::all();
-//         return view('products.edit', compact('product', 'categories'));
-//     }
+    
+    public function edit(Product $product)
+    {
+        $categories = Category::all();
+        return view('products.edit', compact('product', 'categories'));
+    }
 
-//     public function update(Request $request, Product $product)
-//     {
+   
+    public function update(Request $request, Product $product)
+    {
+        $request->validate([
+            'name_product' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'id_category' => 'required|exists:categories,id',
+        ]);
 
+        $data = [
+            'name_product' => $request->name_product,
+            'price' => $request->price,
+            'id_category' => $request->id_category,
+        ];
 
-//         $request->validate([
-//             'name_product' => 'required|string|max:255',
-//             'price' => 'required|numeric|min:0',
-//             'description' => 'required|string',
-//             'short_description' => 'required|string|max:255',
-//             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-//             'id_category' => 'required|exists:categories,id',
-//         ]);
+        // Если загружено новое изображение
+        if ($request->hasFile('image')) {
+            // Удаляем старое изображение
+            if ($product->image) {
+                Storage::disk('public')->delete($product->image);
+            }
+            
+            // Сохраняем новое изображение
+            $data['image'] = $request->file('image')->store('comics', 'public');
+        }
 
-//         $data = $request->all();
+        $product->update($data);
 
-//         if ($request->hasFile('image')) {
-//             // Удаляем старое изображение
-//             if ($product->image) {
-//                 Storage::disk('public')->delete($product->image);
-//             }
-//             $data['image'] = $request->file('image')->store('products', 'public');
-//         }
+        return redirect()->route('products.index')->with('success', 'Товар успешно обновлен');
+    }
 
-//         $product->update($data);
-
-//         return redirect()->route('products.show', $product)
-//             ->with('success', 'Товар успешно обновлен');
-//     }
-
-//     public function destroy(Product $product)
-//     {
-
-
-//         if ($product->image) {
-//             Storage::disk('public')->delete($product->image);
-//         }
-
-//         $product->delete();
-
-//         return redirect()->route('home')
-//             ->with('success', 'Товар успешно удален');
-//     }
-// }
+    
+    public function destroy(Product $product)
+    {
+        // Удаляем изображение
+        if ($product->image) {
+            Storage::disk('public')->delete($product->image);
+        }
+        
+        $product->delete();
+        
+        return redirect()->route('products.index')->with('success', 'Товар успешно удален');
+    }
+}

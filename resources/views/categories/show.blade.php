@@ -1,105 +1,95 @@
-
-
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Магазин часов</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $category->name_category }} - COMICWERS</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<style>
-    /* Стили для пагинации */
-.pagination {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    padding: 0;
-}
 
-.page-item {
-    margin: 0 4px;
-}
+<body>
+    <!-- Шапка сайта -->
+    @include('components.header')
 
-.page-link {
-    display: block;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    color: #333;
-    text-decoration: none;
-}
+    <!-- Основной контент -->
+    <main class="container">
+        <!-- Боковое меню и контент -->
+        <div class="main-content">
+            <!-- Боковое меню -->
+            <aside class="sidebar">
+                <nav class="category-menu">
+                    <ul>
+                        <li><a href="{{ route('home') }}"><i class="icon home-icon">
+                      <img src="{{ asset('images/icons/home.png') }}" alt="">
 
-.page-item.active .page-link {
-    background-color: #7f1d1d; /* Цвет как в вашем дизайне */
-    border-color: #7f1d1d;
-    color: white;
-}
+                        </i>Главная</a></li>
+                        @foreach($categories as $cat)
+                        <li>
+                            <a href="{{ route('categories.show', $cat->id) }}"
+                                class="{{ $cat->id == $category->id ? 'active' : '' }}">
+                                <i class="icon category-icon">
+                                    @if( $cat -> name_category == 'Супергерои')
+                                    <img src="{{ asset('images/icons/superhero.png') }}" alt="">
+                                    @elseif ( $cat -> name_category == 'Фэнтези')
+                                    <img src="{{ asset('images/icons/fantasy.png') }}" alt="">
+                                    @elseif ( $cat -> name_category == 'Научная фантастика')
+                                    <img src="{{ asset('images/icons/fantastic.png') }}" alt="">
+                                    @elseif ( $cat -> name_category == 'Хоррор')
+                                    <img src="{{ asset('images/icons/horror.png') }}" alt="">
+                                    @elseif ( $cat -> name_category == 'Приключения')
+                                    <img src="{{ asset('images/icons/adventures.png') }}" alt="">
+                                    @elseif ( $cat -> name_category == 'Манга')
+                                    <img src="{{ asset('images/icons/manga.png') }}" alt="">
+                                    @else
+                                    <img src="{{ asset('images/icons/child-comics.png') }}" alt="">
 
-.page-item.disabled .page-link {
-    color: #999;
-    pointer-events: none;
-    cursor: not-allowed;
-}
+                                    @endif
+                                </i>{{ $cat->name_category }}
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
+                </nav>
+            </aside>
 
-.page-link:hover {
-    background-color: #f3f4f6;
-}
-body {
-    font-family: 'Nunito', sans-serif;
-}
-</style>
-<body class="bg-white text-gray-800">
+            <!-- Основной контент -->
+            <section class="content">
+                <h1 class="category-title">{{ $category->name_category }}</h1>
 
-@include('components.header')
-<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-    <!-- Хлебные крошки -->
-    <nav class="flex mb-6" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-1 md:space-x-3">
-            <li class="inline-flex items-center">
-                <a href="/" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-red-900">
-                    Главная
-                </a>
-            </li>
-            <li aria-current="page">
-                <div class="flex items-center">
-                    <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                    </svg>
-                    <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">{{ $category->name_category }}</span>
+                @if($products->isEmpty())
+                <div class="empty-category">
+                    <p>В данной категории пока нет товаров</p>
                 </div>
-            </li>
-        </ol>
-    </nav>
-
-    <!-- Заголовок категории -->
-    <h1 class="text-2xl font-bold text-gray-900 mb-6">{{ $category->name_category }}</h1>
-
-    <!-- Товары категории -->
-    @if($products->count() > 0)
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            @foreach ($products as $product)
-                <a href="{{ route('products.show', $product) }}" class="border p-3 rounded-lg hover:shadow-md transition-shadow">
-                    <div class="bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center mb-2" style="height: 150px;">
-                        <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://via.placeholder.com/150' }}" 
-                             alt="{{ $product->name_product }}" 
-                             class="object-contain h-full w-full">
+                @else
+                <div class="product-grid">
+                    @foreach($products as $product)
+                    <div class="product-card">
+                        <a href="{{ route('products.show', $product->id) }}">
+                            <div class="product-image">
+                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name_product }}">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">{{ $product->name_product }}</h3>
+                                <p class="product-price">{{ number_format($product->price, 0, ',', '.') }}руб.</p>
+                            </div>
+                        </a>
                     </div>
-                    <h3 class="text-sm font-medium text-gray-900 mb-1">{{ $product->name_product }}</h3>
-                    <p class="text-red-900 font-semibold">{{ number_format($product->price, 0, ',', ' ') }} руб.</p>
-                </a>
-            @endforeach
-        </div>
+                    @endforeach
+                </div>
 
-        <!-- Пагинация -->
-        <div class="mt-6">
-            {{ $products->links() }}
+                <!-- Пагинация -->
+                <div class="pagination">
+                    {{ $products->links() }}
+                </div>
+                @endif
+            </section>
         </div>
-    @else
-        <div class="bg-white rounded-lg shadow-sm p-6 text-center">
-            <p class="text-gray-500">В этой категории пока нет товаров.</p>
-        </div>
-    @endif
-</div>
+    </main>
+
+    <!-- Подвал сайта -->
+    @include('components.footer')
 </body>
+
 </html>

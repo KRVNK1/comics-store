@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Маршруты для категорий и продуктов 
-Route::get('/products/{product}', [HomeController::class, 'show'])->name('products.show');
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
 
 Route::middleware('auth')->group(function () {
@@ -47,9 +47,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     
-    // Избранное
-    Route::post('/favourites/toggle/{product}', [FavouriteController::class, 'toggle'])->name('favourites.toggle');
-    Route::get('/favourites', [FavouriteController::class, 'index'])->name('favourites.index');
 
     Route::get('/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
     Route::post('/orders', [OrderController::class, 'placeOrder'])->name('orders.store');
@@ -61,11 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
-    Route::post('/check-promocode', [PromocodeController::class, 'check'])->name('promocode.check');
     Route::post('/promocode/check', [OrderController::class, 'checkPromocode'])->name('promocode.check');
-    Route::post('/check-promocode', [PromocodeController::class, 'checkPromocode']);
-    Route::post('/promocodes', [PromocodeController::class, 'store'])->name('promocodes.store');
-    Route::delete('/promocodes/{promocode}', [PromocodeController::class, 'destroy'])->name('promocodes.destroy');
 });
 
 
