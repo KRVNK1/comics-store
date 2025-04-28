@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>(C)2023 - Наш лучший магазин</p>
+            <p>(C)2025 - Наш лучший магазин</p>
         </div>
     </div>
 </footer>

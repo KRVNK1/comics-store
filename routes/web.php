@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
 });
 
-
+// Маршруты для категорий и продуктов 
 Route::get('/products/{product}', [HomeController::class, 'show'])->name('products.show');
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
 
