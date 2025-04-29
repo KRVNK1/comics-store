@@ -23,7 +23,7 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function items()
+    public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
     }
@@ -37,8 +37,4 @@ class Order extends Model
         });
     }
     
-    public function promocode()
-{
-    return $this->belongsTo(Promocode::class);
-}
 }

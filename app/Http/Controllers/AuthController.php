@@ -20,17 +20,20 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|string|max:11|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'address' => 'required|string|max:255',
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'address' => $request->address,
-            'status_user' => '0', // или другое значение по умолчанию
         ]);
 
         Auth::login($user);
@@ -54,11 +57,11 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('home')); // Замените на ваш маршрут
+            return redirect()->intended(route('home'));
         }
 
         return back()->withErrors([
-            'email' => 'Неверные учетные данные.',
+            'email' => 'Неверная почта или пароль',
         ]);
     }
 

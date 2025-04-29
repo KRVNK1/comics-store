@@ -104,7 +104,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        if (auth()->user()->isAdmin()) {
+        if (auth()->user()) {
             $orders = Order::latest()->get();
         } else {
             $orders = auth()->user()->orders()->latest()->get();

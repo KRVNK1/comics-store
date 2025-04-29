@@ -1,30 +1,36 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Магазин часов</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Магазин часов</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ledger&display=swap" rel="stylesheet">
 </head>
 <style>
     body {
-    font-family: 'Nunito', sans-serif;
-}
+        font-family: 'Nunito', sans-serif;
+    }
 </style>
+
 <body class="bg-white text-gray-800">
 
-@include('components.header')
-<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-    <h1 class="text-2xl font-bold mb-6">Корзина</h1>
+    @include('components.header')
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-2xl font-bold mb-6">Корзина</h1>
 
-    @if($cartItems->isEmpty())
+        @if($cartItems->isEmpty())
         <div class="bg-white rounded-lg shadow-sm p-6 text-center">
             <p class="text-gray-500">Ваша корзина пуста</p>
             <a href="/" class="mt-4 inline-block px-4 py-2 bg-red-900 text-white rounded-md hover:bg-red-800">
                 Перейти к покупкам
             </a>
         </div>
-    @else
+        @else
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -72,11 +78,12 @@
             <div class="px-6 py-4 bg-gray-50 border-t flex justify-between items-center">
                 <div class="text-xl font-semibold">Итого: {{ number_format($total, 0, ',', ' ') }} руб.</div>
                 <a href="{{ route('orders.checkout') }}" class="px-4 py-2 bg-red-900 text-white rounded-md hover:bg-red-800">
-    Оформить заказ
-</a>
+                    Оформить заказ
+                </a>
             </div>
         </div>
-    @endif
-</div>
+        @endif
+    </div>
 </body>
+
 </html>

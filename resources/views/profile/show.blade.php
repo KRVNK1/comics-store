@@ -1,292 +1,231 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Магазин часов</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Магазин комиксов - Личный кабинет</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ledger&display=swap" rel="stylesheet">
 </head>
-<style>
-    body {
-    font-family: 'Nunito', sans-serif;
-}
-</style>
-<body class="bg-white text-gray-800">
 
-@include('components.header')
-<div class="max-w-4xl mx-auto py-8 px-4">
-    <h1 class="text-2xl font-bold mb-6 text-red-900">Личный кабинет</h1>
-    
-    <!-- Общий раздел заказов -->
-    <div class="mb-8">
-        <h2 class="text-xl font-semibold mb-4 text-gray-800">
-            @auth
-                @if(auth()->user()->isAdmin())
-                    Заказы
-                @else
-                    Мои заказы
-                @endif
-            @endauth
-        </h2>
-        <a href="{{ route('orders.index') }}" class="inline-flex items-center text-red-900 hover:text-red-700">
-            @auth
-                @if(auth()->user()->isAdmin())
-                    Управление заказами
-                @else
-                    История заказов
-                @endif
-            @endauth
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-        </a>
-    </div>
+<body>
+    @include('components.header')
 
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <!-- Сообщения об успехе -->
-        @if(session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                {{ session('success') }}
-            </div>
+    <div class="container">
+        <h1 class="profile-title">Настройки учетной записи</h1>
+
+        @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
         @endif
 
-        <!-- Информация о пользователе -->
-        <div class="mb-8">
-            <h2 class="text-xl font-semibold mb-4 text-gray-800">Мой профиль</h2>
-            
-            <form method="POST" action="{{ route('profile.update') }}">
+        <div class="profile-tabs">
+            <a href="#profile-info" class="profile-tab active" data-tab="profile-info">Информация профиля</a>
+            <a href="#order-history" class="profile-tab" data-tab="order-history">История заказов</a>
+        </div>
+
+        <!-- Вкладка информации профиля -->
+        <div class="profile-content" id="profile-info">
+            <form action="{{ route('profile.update') }}" method="POST" class="profile-form">
                 @csrf
                 @method('PUT')
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Имя</label>
-                        <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}"
-                            class="mt-1 block w-full rounded-md border-2 border-gray-200 shadow-sm focus:border-red-900 focus:ring-red-900">
+                <h2 class="profile-section-title">Информация Профиля</h2>
+
+                <div class="profile-form-row">
+                    <div class="profile-form-group">
+                        <label for="name">Имя</label>
+                        <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}" class="profile-input">
                         @error('name')
-                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                        <span class="profile-error">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}"
-                            class="mt-1 block w-full rounded-md border-2 border-gray-200 shadow-sm focus:border-red-900 focus:ring-red-900">
+                    <div class="profile-form-group">
+                        <label for="last_name">Фамилия</label>
+                        <input type="text" id="last_name" name="last_name" value="{{ old('last_name', $user->last_name) }}" class="profile-input">
+                        @error('last_name')
+                        <span class="profile-error">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="profile-form-row">
+                    <div class="profile-form-group">
+                        <label for="email">Email Адрес</label>
+                        <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" class="profile-input">
                         @error('email')
-                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                        <span class="profile-error">{{ $message }}</span>
                         @enderror
                     </div>
 
-
-                    <div class="md:col-span-2">
-                        <label for="address" class="block text-sm font-medium text-gray-700">Адрес</label>
-                        <input type="text" id="address" name="address" value="{{ old('address', $user->address) }}"
-                            class="mt-1 block w-full rounded-md border-2 border-gray-200 shadow-sm focus:border-red-900 focus:ring-red-900">
-                        @error('address')
-                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                    <div class="profile-form-group">
+                        <label for="phone_number">Номер телефона</label>
+                        <input type="text" id="phone_number" name="phone_number" value="{{ old('phone_number', $user->phone_number) }}" class="profile-input" placeholder="89003332525">
+                        @error('phone_number')
+                        <span class="profile-error">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>
 
-                <div class="mt-6">
-                    <button type="submit" 
-                        class="px-4 py-2 bg-red-900 text-white rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-900">
-                        Сохранить изменения
-                    </button>
+                <h2 class="profile-section-title">Поменять Пароль</h2>
+
+                <div class="profile-form-row">
+                    <div class="profile-form-group">
+                        <label for="password">Новый пароль</label>
+                        <input type="password" id="password" name="password" class="profile-input">
+                        @error('password')
+                        <span class="profile-error">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="profile-form-group">
+                        <label for="password_confirmation">Подтвердите новый пароль</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" class="profile-input">
+                    </div>
+                </div>
+
+                <h2 class="profile-section-title">Адрес</h2>
+
+                <div class="profile-form-group full-width">
+                    <label for="address">Адрес доставки</label>
+                    <textarea id="address" name="address" class="profile-input profile-textarea" placeholder="Ваш адрес">{{ old('address', $user->address) }}</textarea>
+                    @error('address')
+                    <span class="profile-error">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="profile-form-actions">
+                    <button type="submit" class="profile-submit-btn">сохранить изменения</button>
                 </div>
             </form>
         </div>
 
-        <!-- Смена пароля -->
-        <div>
-            <h2 class="text-xl font-semibold mb-4 text-gray-800">Смена пароля</h2>
+        <!-- Вкладка истории заказов -->
+        <div class="profile-content" id="order-history" style="display: none;">
+            <h2 class="profile-section-title">История заказов</h2>
             
-            <form method="POST" action="{{ route('profile.change-password') }}">
-                @csrf
-                @method('PUT')
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="current_password" class="block text-sm font-medium text-gray-700">Текущий пароль</label>
-                        <input type="password" id="current_password" name="current_password" 
-                            class="mt-1 block w-full rounded-md border-2 border-gray-200 shadow-sm focus:border-red-900 focus:ring-red-900">
-                        @error('current_password')
-                            <span class="text-red-500 text-xs">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label for="new_password" class="block text-sm font-medium text-gray-700">Новый пароль</label>
-                        <input type="password" id="new_password" name="new_password" 
-                            class="mt-1 block w-full rounded-md border-2 border-gray-200 shadow-sm focus:border-red-900 focus:ring-red-900">
-                        @error('new_password')
-                            <span class="text-red-500 text-xs">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label for="new_password_confirmation" class="block text-sm font-medium text-gray-700">Подтвердите новый пароль</label>
-                        <input type="password" id="new_password_confirmation" name="new_password_confirmation" 
-                            class="mt-1 block w-full rounded-md border-2 border-gray-200 shadow-sm focus:border-red-900 focus:ring-red-900">
-                    </div>
+            @if($orders->isEmpty())
+                <div class="empty-orders">
+                    <p>У вас пока нет заказов</p>
+                    <a href="{{ route('home') }}" class="profile-link">Перейти к покупкам</a>
                 </div>
-
-                <div class="mt-6">
-                    <button type="submit" 
-                        class="px-4 py-2 bg-red-900 text-white rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-900">
-                        Изменить пароль
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
- 
-    @if(auth()->user()->isAdmin())
-    <div class="mt-12">
-        <h2 class="text-2xl font-bold mb-6 text-red-900">Администрирование</h2>
-        
-        <!-- Форма добавления категории -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h3 class="text-lg font-semibold mb-4 text-gray-800">Добавить категорию</h3>
-            <form method="POST" action="{{ route('profile.add-category') }}">
-                @csrf
-                <div class="flex">
-                    <input type="text" name="name_category" required 
-                        class="flex-grow rounded-l-md border-2 border-gray-200 shadow-sm focus:border-red-900 focus:ring-red-900"
-                        placeholder="Название категории">
-                    <button type="submit" class="bg-red-900 text-white px-4 py-2 rounded-r-md hover:bg-red-800">
-                        Добавить
-                    </button>
-                </div>
-            </form>
-        </div>
-        
-        <!-- Форма добавления товара -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-semibold mb-4 text-gray-800">Добавить товар</h3>
-            <form method="POST" action="{{ route('profile.add-product') }}" enctype="multipart/form-data">
-                @csrf
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Категория</label>
-                        <select name="id_category" required
-                            class="mt-1 block w-full rounded-md border-2 border-gray-200 shadow-sm focus:border-red-900 focus:ring-red-900">
-                            @foreach(App\Models\Category::all() as $category)
-                                <option value="{{ $category->id }}">{{ $category->name_category }}</option>
+            @else
+                <div class="orders-table-container">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Номер</th>
+                                <th>Заказ</th>
+                                <th>Статус</th>
+                                <th>Tracking ID</th>
+                                <th>дата доставки</th>
+                                <th>Цена</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($orders as $order)
+                                @foreach($order->orderItems as $item)
+                                <tr>
+                                    <td>{{ $order->id }}</td>
+                                    <td class="order-product-cell">
+                                        <div class="order-product-info">
+                                            <div class="order-product-image">
+                                                <img src="{{ asset('storage/' . $item->product->image) }}" alt="{{ $item->product->name_product }}">
+                                            </div>
+                                            <span>{{ $item->product->name_product }}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="order-status">
+                                            <span class="status-icon"></span>
+                                            <span class="status-text">{{ $order->status_text }}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="tracking-id">
+                                            {{ $order->id }}{{ str_pad(rand(10000, 99999), 5, '0', STR_PAD_LEFT) }}
+                                            <button class="copy-button" onclick="copyToClipboard(this)" data-clipboard-text="{{ $order->id }}{{ str_pad(rand(10000, 99999), 5, '0', STR_PAD_LEFT) }}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>{{ $order->created_at->format('d-m-Y') }}</td>
+                                    <td class="price-cell">{{ number_format($item->price * $item->quantity, 2, '.', '') }}</td>
+                                    <td>
+                                        <a href="{{ route('cart.add-again', ['product' => $item->product->id, 'quantity' => $item->quantity]) }}" class="reorder-button">
+                                            Re-Order
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M5 12h14"></path>
+                                                <path d="m12 5 7 7-7 7"></path>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+                                @endforeach
                             @endforeach
-                        </select>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Название товара</label>
-                        <input type="text" name="name_product" required
-                            class="mt-1 block w-full rounded-md border-2 border-gray-200 shadow-sm focus:border-red-900 focus:ring-red-900">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Цена</label>
-                        <input type="number" step="0.01" name="price" required
-                            class="mt-1 block w-full rounded-md border-2 border-gray-200 shadow-sm focus:border-red-900 focus:ring-red-900">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Изображение</label>
-                        <input type="file" name="image" required accept="image/*"
-                            class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-900 hover:file:bg-red-100">
-                    </div>
-                    
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Краткое описание</label>
-                        <input type="text" name="short_description" required
-                            class="mt-1 block w-full rounded-md border-2 border-gray-200 shadow-sm focus:border-red-900 focus:ring-red-900">
-                    </div>
-                    
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Полное описание</label>
-                        <textarea name="description" rows="3" required
-                            class="mt-1 block w-full rounded-md border-2 border-gray-200 shadow-sm focus:border-red-900 focus:ring-red-900"></textarea>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
                 
-                <div class="mt-6">
-                    <button type="submit" class="bg-red-900 text-white px-4 py-2 rounded-md hover:bg-red-800">
-                        Добавить товар
-                    </button>
+                <div class="pagination">
+                    {{ $orders->links() }}
                 </div>
-            </form>
+            @endif
         </div>
-        @if(auth()->user()->status_user == 1)
-<div class="mt-12">
-    <h2 class="text-2xl font-bold mb-6 text-red-900">Управление промокодами</h2>
-    
-    <!-- Форма создания промокода -->
-    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h3 class="text-lg font-semibold mb-4 text-gray-800">Создать промокод</h3>
-        <form method="POST" action="{{ route('promocodes.store') }}">
-            @csrf
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Код промокода</label>
-                    <input type="text" name="code" required 
-                        class="mt-1 block w-full rounded-md border-2 border-gray-200 shadow-sm focus:border-red-900 focus:ring-red-900"
-                        placeholder="Например: SUMMER20">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Размер скидки (руб.)</label>
-                    <input type="number" name="price" min="1" required 
-                        class="mt-1 block w-full rounded-md border-2 border-gray-200 shadow-sm focus:border-red-900 focus:ring-red-900"
-                        placeholder="Например: 1000">
-                </div>
-                <div class="flex items-end">
-                    <button type="submit" class="w-full bg-red-900 text-white px-4 py-2 rounded-md hover:bg-red-800">
-                        Создать
-                    </button>
-                </div>
-            </div>
-        </form>
     </div>
-    
-    <!-- Список существующих промокодов -->
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-lg font-semibold mb-4 text-gray-800">Список промокодов</h3>
-        
-        @if($promocodes->isEmpty())
-            <p class="text-gray-500">Нет созданных промокодов</p>
-        @else
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Код</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Скидка</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Действия</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach($promocodes as $promocode)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $promocode->code }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ number_format($promocode->price, 0, ',', ' ') }} руб.</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <form method="POST" action="{{ route('promocodes.destroy', $promocode->id) }}" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-900 hover:text-red-700" onclick="return confirm('Удалить этот промокод?')">
-                                        Удалить
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @endif
-    </div>
-</div>
-@endif
-    </div>
-    @endif
-</div>
+
+    @include('components.footer')
+
+    <script>
+        // Функция для переключения вкладок
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.profile-tab');
+            const contents = document.querySelectorAll('.profile-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Удаляем активный класс со всех вкладок
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Добавляем активный класс на текущую вкладку
+                    this.classList.add('active');
+                    
+                    // Скрываем все содержимое вкладок
+                    contents.forEach(content => {
+                        content.style.display = 'none';
+                    });
+                    
+                    // Показываем содержимое выбранной вкладки
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).style.display = 'block';
+                });
+            });
+        });
+
+        // Функция для копирования Tracking ID
+        function copyToClipboard(button) {
+            const text = button.getAttribute('data-clipboard-text');
+            navigator.clipboard.writeText(text).then(() => {
+                // Визуальная обратная связь
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
 </body>
+
 </html>

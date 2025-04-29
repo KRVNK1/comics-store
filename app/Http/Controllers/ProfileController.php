@@ -16,17 +16,11 @@ class ProfileController extends Controller
     public function show()
     {
         $user = Auth::user();
-        $promocodes = [];
+        $orders = $user->orders()->with('orderItems.product')->latest()->paginate(10);
 
-        if ($user->status_user == 1) {
-            $promocodes = Promocode::all();
-        }
-
-        return view('profile.show', [
-            'user' => $user,
-            'promocodes' => $promocodes
-        ]);
+        return view('profile.show', compact('user', 'orders'));
     }
+
 
     // Обновление профиля
     public function update(Request $request)
@@ -49,63 +43,69 @@ class ProfileController extends Controller
     public function changePassword(Request $request)
     {
         $request->validate([
-            'current_password' => ['required', 'current_password'],
-            'new_password' => ['required', Password::defaults(), 'confirmed'],
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
-        Auth::user()->update([
-            'password' => Hash::make($request->new_password),
-        ]);
+        $user = Auth::user();
 
-        return back()->with('success', 'Пароль успешно изменен!');
-    }
-
-    private function checkAdmin()
-    {
-        if (!auth()->user()->isAdmin()) {
-            abort(403, 'Доступ запрещен');
+        // Проверяем, совпадает ли текущий пароль
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors([
+                'current_password' => 'Текущий пароль неверен',
+            ]);
         }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('profile.show')->with('success', 'Пароль успешно изменен');
     }
 
-    public function addCategory(Request $request)
+    public function orders()
     {
-        $this->checkAdmin();
+        $user = Auth::user();
+        $orders = $user->orders()->latest()->paginate(10);
 
-        $request->validate([
-            'name_category' => 'required|string|max:255|unique:categories',
-        ]);
-
-        Category::create([
-            'name_category' => $request->name_category
-        ]);
-
-        return back()->with('success', 'Категория успешно добавлена');
+        return view('profile.orders', compact('user', 'orders'));
     }
 
-    public function addProduct(Request $request)
-    {
-        $this->checkAdmin();
+    // public function addCategory(Request $request)
+    // {
 
-        $request->validate([
-            'name_product' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'description' => 'required|string',
-            'short_description' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'id_category' => 'required|exists:categories,id',
-        ]);
+    //     $request->validate([
+    //         'name_category' => 'required|string|max:255|unique:categories',
+    //     ]);
 
-        $imagePath = $request->file('image')->store('products', 'public');
+    //     Category::create([
+    //         'name_category' => $request->name_category
+    //     ]);
 
-        Product::create([
-            'name_product' => $request->name_product,
-            'price' => $request->price,
-            'description' => $request->description,
-            'short_description' => $request->short_description,
-            'image' => $imagePath,
-            'id_category' => $request->id_category,
-        ]);
+    //     return back()->with('success', 'Категория успешно добавлена');
+    // }
 
-        return back()->with('success', 'Товар успешно добавлен');
-    }
+    // public function addProduct(Request $request)
+    // {
+    //     $request->validate([
+    //         'name_product' => 'required|string|max:255',
+    //         'price' => 'required|numeric|min:0',
+    //         'description' => 'required|string',
+    //         'short_description' => 'required|string|max:255',
+    //         'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    //         'id_category' => 'required|exists:categories,id',
+    //     ]);
+
+    //     $imagePath = $request->file('image')->store('products', 'public');
+
+    //     Product::create([
+    //         'name_product' => $request->name_product,
+    //         'price' => $request->price,
+    //         'description' => $request->description,
+    //         'short_description' => $request->short_description,
+    //         'image' => $imagePath,
+    //         'id_category' => $request->id_category,
+    //     ]);
+
+    //     return back()->with('success', 'Товар успешно добавлен');
+    // }
 }

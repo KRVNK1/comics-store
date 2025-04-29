@@ -1,0 +1,309 @@
+/* Стили для страницы профиля */
+.profile-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 30px 0 20px;
+    color: #333;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.profile-tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 30px;
+}
+
+.profile-tab {
+    padding: 12px 20px;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+}
+
+.profile-tab:hover {
+    color: #FF5722;
+}
+
+.profile-tab.active {
+    color: #FF5722;
+    border-bottom-color: #FF5722;
+}
+
+.profile-content {
+    margin-bottom: 50px;
+}
+
+.profile-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 30px 0 15px;
+    color: #333;
+}
+
+.profile-form-row {
+    display: flex;
+    margin: 0 -10px;
+}
+
+.profile-form-group {
+    padding: 0 10px;
+    margin-bottom: 20px;
+    width: 50%;
+}
+
+.profile-form-group.full-width {
+    width: 100%;
+    padding: 0px;
+}
+
+.profile-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #666;
+}
+
+.profile-input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.profile-input:focus {
+    border-color: #FF5722;
+    outline: none;
+}
+
+.profile-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.profile-error {
+    display: block;
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.profile-form-actions {
+    margin-top: 30px;
+}
+
+.profile-submit-btn {
+    padding: 12px 25px;
+    background-color: #0277BD;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-transform: lowercase;
+}
+
+.profile-submit-btn:hover {
+    background-color: #01579B;
+}
+
+/* Стили для истории заказов */
+.empty-orders {
+    text-align: center;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.profile-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: #0277BD;
+    text-decoration: underline;
+}
+
+.orders-list {
+    margin-bottom: 30px;
+}
+
+.order-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-number {
+    font-weight: 700;
+    margin-right: 15px;
+}
+
+.order-date {
+    color: #666;
+    font-size: 14px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status-new {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.status-processing {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-shipped {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.status-delivered {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.order-products {
+    padding: 15px;
+}
+
+.order-product {
+    display: flex;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.order-product:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.product-image {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-right: 15px;
+}
+
+.product-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.product-details {
+    flex: 1;
+}
+
+.product-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.product-meta {
+    display: flex;
+    justify-content: space-between;
+    color: #666;
+}
+
+.order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
+}
+
+.order-total {
+    font-weight: 500;
+}
+
+.total-price {
+    color: #FF5722;
+    font-weight: 700;
+    margin-left: 10px;
+}
+
+.order-details-btn {
+    padding: 8px 15px;
+    background-color: #0277BD;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.order-details-btn:hover {
+    background-color: #01579B;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .profile-form-row {
+        flex-direction: column;
+    }
+
+    .profile-form-group {
+        width: 100%;
+    }
+
+    .order-header,
+    .order-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .order-status,
+    .order-details-btn {
+        margin-top: 10px;
+    }
+}

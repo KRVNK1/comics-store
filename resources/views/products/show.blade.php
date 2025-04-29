@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $product->name_product }} - COMICWERS</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ledger&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -17,7 +19,7 @@
     <main class="container">
         <!--  -->
         <div class="breadcrumbs">
-            <a href="{{ route('home') }}">Главная /</a> 
+            <a href="{{ route('home') }}">Главная /</a>
             <a href="{{ route('categories.show', $product->category->id) }}">{{ $product->category->name_category }}</a> /
             <span>{{ $product->name_product }}</span>
         </div>
@@ -34,7 +36,7 @@
                     <span class="price-value">{{ number_format($product->price, 0, ',', '.') }} руб.</span>
                 </div>
 
-                <form action="" method="POST">
+                <form action="{{ route('cart.add', $product) }}" method="POST">
                     @csrf
                     <input type="hidden" name="id_product" value="{{ $product->id }}">
                     <button type="submit" class="add-to-cart-btn">Добавить в корзину</button>

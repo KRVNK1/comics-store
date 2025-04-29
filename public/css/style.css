@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Ledger", serif;
     font-size: 16px;
     line-height: 1.5;
     color: #333;
@@ -58,12 +58,8 @@ header {
     align-items: center;
 }
 
-.category-btn {
-    background-color: #0277BD;
-    color: white;
-    border: none;
+.logo-btn {
     padding: 10px 15px;
-    font-weight: bold;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -363,8 +359,8 @@ footer {
 }
 
 .product-detail-image {
+    height: 100%;
     max-width: 100%;
-    max-height: 500px;
     object-fit: contain;
 }
 

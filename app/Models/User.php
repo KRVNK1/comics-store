@@ -13,10 +13,11 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name',
+        'last_name',
         'email',
-        'password',
-        'status_user',
+        'phone',
         'address',
+        'password',
     ];
 
     protected $hidden = [
@@ -28,30 +29,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function isAdmin()
-    {
-        return $this->status_user == 1;
-    }
+
 
     public function cartItems()
-{
-    return $this->hasMany(Cart::class);
-}
+    {
+        return $this->hasMany(Cart::class);
+    }
 
-public function favourites()
-{
-    return $this->hasMany(Favourite::class);
-}
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 
-public function orders()
-{
-    return $this->hasMany(Order::class);
-}
-
-public function usedPromocodes(): BelongsToMany
-{
-    return $this->belongsToMany(Promocode::class, 'promocode_usages')
-               ->withPivot('order_id')
-               ->withTimestamps();
-}
 }

@@ -8,25 +8,9 @@
             <div class="footer-column">
                 <h3>О КОМПАНИИ</h3>
                 <ul>
-                    <li><a href="#">о нас</a></li>
-                    <li><a href="#">документация</a></li>
-                    <li><a href="#">спонсоры</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>О КОМПАНИИ</h3>
-                <ul>
-                    <li><a href="#">о нас</a></li>
-                    <li><a href="#">документация</a></li>
-                    <li><a href="#">спонсоры</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>О КОМПАНИИ</h3>
-                <ul>
-                    <li><a href="#">о нас</a></li>
-                    <li><a href="#">документация</a></li>
-                    <li><a href="#">спонсоры</a></li>
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Документация</a></li>
+                    <li><a href="#">Спонсоры</a></li>
                 </ul>
             </div>
             <div class="footer-column">

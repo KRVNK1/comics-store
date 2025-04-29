@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>COMICWERS - Магазин комиксов</title>
   <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ledger&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -18,10 +20,9 @@
     <div class="header-bottom">
       <div class="container">
         <div class="menu-button">
-          <button class="category-btn">
-            <span class="menu-icon"></span>
+          <a href="{{ route('home') }}" class="logo-btn">
             <img src="{{ asset('images/comicwers-footer-logo.png') }}" alt="">
-          </button>
+          </a>
         </div>
         <div class="auth-buttons">
           @guest
@@ -34,10 +35,10 @@
             <span class="cart-count">{{ count(session('cart')) }}</span>
             @endif
           </a>
-          <a href="{{ route('profile.show') }}" class="auth-btn profile">{{ Auth::user()->name }}</a>
-          <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+          <a href="{{ route('profile.show') }}" class="auth-btn profile">Профиль</a>
+          <form action="{{ route('logout') }}" method="POST" class=" logout">
             @csrf
-            <button type="submit" class="auth-btn logout">Выход</button>
+            <button type="submit" class="auth-btn" style="font-size: 16px;">Выход</button>
           </form>
           @endguest
         </div>
@@ -84,8 +85,8 @@
                       <img src="{{ asset('images/icons/manga.png') }}" alt="">
                       @else
                       <img src="{{ asset('images/icons/child-comics.png') }}" alt="">
-
                       @endif
+
                     </i>{{ $category->name_category }}
                   </a>
                 </li>
@@ -162,7 +163,9 @@
     <div class="container">
       <div class="footer-content">
         <div class="footer-logo">
-          <img src="{{ asset('images/comicwers-footer-logo.png') }}" alt="COMICWERS">
+          <a href="#">
+            <img src="{{ asset('images/comicwers-footer-logo.png') }}" alt="COMICWERS">
+          </a>
           <p class="footer-slogan">«Погружение в мир комиксов: страницы, которые создают вселенные, — всё доступно в один клик!»</p>
         </div>
         <div class="footer-column">
@@ -181,7 +184,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>(C)2023 - Наш лучший магазин</p>
+        <p>(C)2025 - Наш лучший магазин</p>
       </div>
     </div>
   </footer>

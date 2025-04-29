@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('status')->default('pending'); // pending, processing, completed, cancelled
             $table->text('shipping_address');
             $table->string('phone');
-            $table->text('notes')->nullable();
+            $table->text('notes')->nullable();  
             $table->timestamps();
         });
     }
