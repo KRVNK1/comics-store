@@ -50,7 +50,7 @@
                         @foreach($order->orderItems as $item)
                         <div class="order-product">
                             <div class="product-image">
-                                <img src="{{ asset('storage/' . $item->product->image) }}" alt="{{ $item->product->name_product }}">
+                                <img src="{{ asset('images/' . $item->product->image) }}" alt="{{ $item->product->name_product }}">
                             </div>
                             <div class="product-details">
                                 <h3 class="product-title">{{ $item->product->name_product }}</h3>

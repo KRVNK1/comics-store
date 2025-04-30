@@ -68,7 +68,7 @@
                     <div class="product-card">
                         <a href="{{ route('products.show', $product->id) }}">
                             <div class="product-image">
-                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name_product }}">
+                                <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name_product }}">
                             </div>
                             <div class="product-info">
                                 <h3 class="product-title">{{ $product->name_product }}</h3>

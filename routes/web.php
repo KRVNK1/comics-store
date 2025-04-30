@@ -27,32 +27,28 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 
 // Маршруты для личного кабинета
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::put('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
-    Route::post('/profile/add-category', [ProfileController::class, 'addCategory'])->name('profile.add-category');
-    Route::post('/profile/add-product', [ProfileController::class, 'addProduct'])->name('profile.add-product');
-    Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
+     // Профиль
+     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+     Route::put('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
+     Route::get('/profile/orders', [ProfileController::class, 'orders'])->name('profile.orders');
+     
+     // Корзина
+     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+     Route::get('/cart/add-again/{product}/{quantity}', [CartController::class, 'addAgain'])->name('cart.add-again');
+     Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+     Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+     Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+     
+     // Заказы
+     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+     Route::get('/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
+     Route::post('/orders', [OrderController::class, 'placeOrder'])->name('orders.store');
 });
 
 // Маршруты для категорий и продуктов 
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
 
-Route::middleware('auth')->group(function () {
-    // Корзина
-    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
-    Route::post('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-
-
-    Route::get('/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
-    Route::post('/orders', [OrderController::class, 'placeOrder'])->name('orders.store');
-    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
-    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-
-    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
-    Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
-    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
-    Route::post('/promocode/check', [OrderController::class, 'checkPromocode'])->name('promocode.check');
-});
