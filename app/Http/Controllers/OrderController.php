@@ -19,7 +19,10 @@ class OrderController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $orders = $user->isAdmin() 
+        // Проверяем роль пользователя вместо метода isAdmin
+        $isAdmin = $user->role === 'admin';
+        
+        $orders = $isAdmin 
             ? Order::with('user')->latest()->paginate(10)
             : $user->orders()->latest()->paginate(10);
         
@@ -55,10 +58,13 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        
         $request->validate([
             'address' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
         ]);
+
+        $status = Order::all();
         
         $user = Auth::user();
         $cartItems = $user->cartItems()->with('product')->get();
@@ -74,9 +80,9 @@ class OrderController extends Controller
         // Создаем заказ
         $order = Order::create([
             'user_id' => $user->id,
-            'order_number' => 'ORD-' . strtoupper(Str::random(8)),
+            'order_number' => 'ORD-' . time(),
             'total_amount' => $totalPrice,
-            'status' => 'pending',
+            'status' => 'processing',
             'shipping_address' => $request->address,
             'phone' => $request->phone_number,
             'notes' => $request->comment,
@@ -98,33 +104,65 @@ class OrderController extends Controller
         return redirect()->route('orders.success', $order->id)->with('success', 'Заказ успешно оформлен');
     }
 
-    
+    /**
+     * Показать страницу успешного оформления заказа.
+     *
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function success(Order $order)
     {
-        // Проверяем, принадлежит ли заказ текущему пользователю
-        if ($order->user_id !== Auth::id() && !Auth::user()->isAdmin()) {
+        $user = Auth::user();
+        $isAdmin = $user->role === 'admin';
+        
+        // Проверяем, принадлежит ли заказ текущему пользователю или является ли пользователь администратором
+        if ($order->user_id !== Auth::id() && !$isAdmin) {
             return redirect()->route('orders.index')->with('error', 'У вас нет доступа к этому заказу');
         }
+        
+        // Загружаем товары заказа с их продуктами
+        $order->load('orderItems.product');
         
         return view('orders.success', compact('order'));
     }
 
-    
+    /**
+     * Показать детали заказа.
+     *
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function show(Order $order)
     {
+        $user = Auth::user();
+        $isAdmin = $user->role === 'admin';
+        
         // Проверяем, принадлежит ли заказ текущему пользователю или является ли пользователь администратором
-        if ($order->user_id !== Auth::id() && !Auth::user()->isAdmin()) {
+        if ($order->user_id !== Auth::id() && !$isAdmin) {
             return redirect()->route('orders.index')->with('error', 'У вас нет доступа к этому заказу');
         }
         
-        $orderItems = $order->items()->with('product')->get();
+        $orderItems = $order->orderItems()->with('product')->get();
         
         return view('orders.show', compact('order', 'orderItems'));
     }
 
-    
+    /**
+     * Обновить статус заказа (только для администратора).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateStatus(Request $request, Order $order)
     {
+        $user = Auth::user();
+        $isAdmin = $user->role === 'admin';
+        
+        if (!$isAdmin) {
+            return redirect()->route('orders.index')->with('error', 'У вас нет прав для выполнения этого действия');
+        }
+        
         $request->validate([
             'status' => 'required|in:pending,processing,completed,cancelled',
         ]);

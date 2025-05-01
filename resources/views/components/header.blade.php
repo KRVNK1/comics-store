@@ -17,7 +17,7 @@
                     <span class="cart-count">{{ count(session('cart')) }}</span>
                     @endif
                 </a>
-                <a href="{{ route('profile.show') }}" class="auth-btn profile">{{ Auth::user()->name }}</a>
+                <a href="{{ route('profile.show') }}" class="auth-btn profile">Профиль</a>
                 <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                     @csrf
                     <button type="submit" class="auth-btn logout">Выход</button>

@@ -101,7 +101,6 @@
                         </div>
                     </div>
                     <div class="btn" style="padding: 0px 20px 20px;">
-
                         <button type="submit" class="btn-confirm">Подтвердить</button>
                     </div>
                 </div>

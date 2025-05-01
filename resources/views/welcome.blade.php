@@ -36,10 +36,11 @@
             @endif
           </a>
           <a href="{{ route('profile.show') }}" class="auth-btn profile">Профиль</a>
-          <form action="{{ route('logout') }}" method="POST" class=" logout">
-            @csrf
-            <button type="submit" class="auth-btn" style="font-size: 16px;">Выход</button>
-          </form>
+            <form action="{{ route('logout') }}" method="POST" class=" logout">
+              @csrf
+              <button type="submit" class="auth-btn">Выход</button>
+            </form>
+
           @endguest
         </div>
       </div>
