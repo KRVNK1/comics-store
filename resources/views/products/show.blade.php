@@ -27,7 +27,7 @@
         <!-- Карточка товара -->
         <div class="product-detail">
             <div class="product-image-container">
-                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name_product }}" class="product-detail-image">
+                <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name_product }}" class="product-detail-image">
             </div>
             <div class="product-info-container">
                 <h1 class="product-detail-title">{{ $product->name_product }}</h1>
@@ -68,7 +68,7 @@
                 <div class="product-card">
                     <a href="{{ route('products.show', $recProduct->id) }}">
                         <div class="product-image">
-                            <img src="{{ asset('storage/' . $recProduct->image) }}" alt="{{ $recProduct->name_product }}">
+                            <img src="{{ asset('images/' . $recProduct->image) }}" alt="{{ $recProduct->name_product }}">
                         </div>
                         <div class="product-info">
                             <h3 class="product-title">{{ $recProduct->name_product }}</h3>

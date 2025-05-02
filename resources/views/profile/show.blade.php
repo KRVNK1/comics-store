@@ -137,7 +137,7 @@
                                     <td class="order-product-cell">
                                         <div class="order-product-info">
                                             <div class="order-product-image">
-                                                <img src="{{ asset('storage/' . $item->product->image) }}" alt="{{ $item->product->name_product }}">
+                                                <img src="{{ asset('images/' . $item->product->image) }}" alt="{{ $item->product->name_product }}">
                                             </div>
                                             <span>{{ $item->product->name_product }}</span>
                                         </div>

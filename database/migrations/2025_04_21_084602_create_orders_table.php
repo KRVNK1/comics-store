@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('order_number')->unique();
             $table->decimal('total_amount', 10, 2);
-            $table->string('status')->default('pending'); // pending, processing, completed, cancelled
+            $table->enum('status', ['processing', 'completed', 'canceled'])->default('processing');
             $table->text('shipping_address');
             $table->string('phone');
             $table->text('notes')->nullable();  

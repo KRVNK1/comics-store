@@ -104,6 +104,9 @@ header {
     background-color: #0277BD;
     border: none;
     cursor: pointer;
+    transition: all 0.3s;
+    font-size: 16px;
+    font-family: "Ledger", serif;
 }
 
 .auth-btn:hover {
@@ -546,10 +549,6 @@ footer {
 }
 
 @media (max-width: 576px) {
-    .product-card {
-        width: 100%;
-    }
-
     .footer-logo,
     .footer-column {
         width: 100%;
