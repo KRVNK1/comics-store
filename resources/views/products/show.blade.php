@@ -27,7 +27,7 @@
         <!-- Карточка товара -->
         <div class="product-detail">
             <div class="product-image-container">
-                <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name_product }}" class="product-detail-image">
+                <img src="{{ $product->image_url }}" alt="{{ $product->name_product }}">
             </div>
             <div class="product-info-container">
                 <h1 class="product-detail-title">{{ $product->name_product }}</h1>
@@ -60,15 +60,42 @@
             </div>
         </div>
 
+        <!-- Кнопки управления для администратора -->
+        @if($isAdmin)
+        <div class="admin-actions">
+            <a href="{{ route('products.edit', $product->id) }}" class="btn-admin">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+                Редактировать
+            </a>
+
+            <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="delete-form" onsubmit="return confirm('Вы уверены, что хотите удалить этот товар?')">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn-admin-delete">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                    </svg>
+                    Удалить
+                </button>
+            </form>
+        </div>
+        @endif
+
         <!-- Рекомендуемые товары -->
         <div class="section">
             <h2 class="section-title">РЕКОМЕНДУЕМ</h2>
             <div class="product-grid">
-                @foreach($recommendedProducts as $recProduct)
+                @foreach($relatedProducts as $recProduct)
                 <div class="product-card">
                     <a href="{{ route('products.show', $recProduct->id) }}">
                         <div class="product-image">
-                            <img src="{{ asset('images/' . $recProduct->image) }}" alt="{{ $recProduct->name_product }}">
+                            <img src="{{ $recProduct->image_url }}" alt="{{ $recProduct->name_product }}">
                         </div>
                         <div class="product-info">
                             <h3 class="product-title">{{ $recProduct->name_product }}</h3>

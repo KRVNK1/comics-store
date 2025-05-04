@@ -85,7 +85,7 @@
             </div>
 
             <div class="order-actions">
-                <a href="{{ route('profile.show') }}#order-history" class="btn-back">← Вернуться к списку заказов</a>
+                <a href="{{ route('profile.show') }}#order-history" class="btn-back">← Вернуться в личный кабинет</a>
             </div>
         </div>
     </main>

@@ -16,7 +16,7 @@ class Product extends Model
         'id_category'
     ];
 
-    
+
     // Получить категорию, к которой принадлежит товар.
     public function category()
     {
@@ -33,5 +33,13 @@ class Product extends Model
     public function cartItems()
     {
         return $this->hasMany(Cart::class, 'id_product');
+    }
+
+    public function getImageUrlAttribute()
+    {
+        if (strpos($this->image, 'comics/') === 0) {
+            return asset('images/' . $this->image);
+        }
+        return asset('images/comics/' . $this->image);
     }
 }

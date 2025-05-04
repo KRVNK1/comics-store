@@ -31,11 +31,11 @@
           @else
           <a href="{{ route('cart.index') }}" class="auth-btn cart">
             Корзина
-              @auth
-                @if(Auth::user()->cartItems()->sum('quantity') > 0)
-                <span class="cart-count">{{ Auth::user()->cartItems()->sum('quantity') }}</span>
-                @endif
-              @endauth
+            @auth
+            @if(Auth::user()->cartItems()->sum('quantity') > 0)
+            <span class="cart-count">{{ Auth::user()->cartItems()->sum('quantity') }}</span>
+            @endif
+            @endauth
           </a>
 
           <a href="{{ route('profile.show') }}" class="auth-btn profile">Профиль</a>
@@ -64,10 +64,10 @@
             <nav class="category-menu">
               <ul>
                 <li>
-                  <a href="{{ route('home') }}" class="active">
+                  <a href="{{ route('products.index') }}">
                     <i class="icon home-icon">
                       <img src="{{ asset('images/icons/home.png') }}" alt="">
-                    </i>Главная
+                    </i>Каталог
                   </a>
                 </li>
                 @foreach($categories as $category)
@@ -122,7 +122,7 @@
             <div class="product-card">
               <a href="{{ route('products.show', $product->id) }}">
                 <div class="product-image">
-                  <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name_product }}">
+                  <img src="{{ $product->image_url }}" alt="{{ $product->name_product }}">
                 </div>
                 <div class="product-info">
                   <p class="product-title">{{ $product->name_product }}</p>
@@ -147,7 +147,7 @@
             <div class="product-card">
               <a href="{{ route('products.show', $product->id) }}">
                 <div class="product-image">
-                  <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name_product }}">
+                  <img src="{{ $product->image_url }}" alt="{{ $product->name_product }}">
                 </div>
                 <div class="product-info">
                   <p class="product-title">{{ $product->name_product }}</p>
