@@ -40,6 +40,11 @@
     color: #0277BD;;
 }
 
+.empty-cart-icon img {
+    width: 56px;
+    height: 56px;
+}
+
 .empty-cart p {
     font-size: 18px;
     color: #666;

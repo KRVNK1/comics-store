@@ -60,6 +60,7 @@ header {
 
 .logo-btn {
     padding: 10px 15px;
+    padding-left: 0;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -113,25 +114,26 @@ header {
     background-color: #01579B;
 }
 
-.cart {
-    position: relative;
-}
-
 .cart-count {
     position: absolute;
-    top: -5px;
-    right: -5px;
-    background-color: #FF5722;
+    top: -8px;
+    right: -8px;
+    background-color: black;
     color: white;
-    font-size: 12px;
-    width: 18px;
-    height: 18px;
     border-radius: 50%;
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .auth-btn.cart {
+    position: relative;
+  }
+  
 /* Основной контент */
 .main-content {
     display: flex;

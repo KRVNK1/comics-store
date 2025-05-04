@@ -13,9 +13,11 @@
                 @else
                 <a href="{{ route('cart.index') }}" class="auth-btn cart">
                     Корзина
-                    @if(session()->has('cart') && count(session('cart')) > 0)
-                    <span class="cart-count">{{ count(session('cart')) }}</span>
-                    @endif
+                        @auth
+                            @if(Auth::user()->cartItems()->sum('quantity') > 0)
+                            <span class="cart-count">{{ Auth::user()->cartItems()->sum('quantity') }}</span>
+                            @endif
+                        @endauth
                 </a>
                 <a href="{{ route('profile.show') }}" class="auth-btn profile">Профиль</a>
                 <form action="{{ route('logout') }}" method="POST" style="display: inline;">

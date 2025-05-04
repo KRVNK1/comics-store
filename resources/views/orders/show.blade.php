@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Заказ оформлен - COMICWERS</title>
+    <title>Детали заказа - COMICWERS</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/order-details.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,20 +24,26 @@
                     <h1 class="order-title">Заказ {{ $order->order_number }}</h1>
                     <div class="order-date">Дата заказа: {{ $order->created_at->format('d.m.Y H:i') }}</div>
                 </div>
+
                 <div class="order-status">
-                    <span class="status-badge status-processing">
+                    <span class="status-badge status-{{ $order->status }}">
                         @if($order->status == 'processing')
                         В процессе
+                        @elseif($order->status == 'completed')
+                        Завершено
+                        @elseif($order->status == 'canceled')
+                        Отменено
                         @endif
                     </span>
                 </div>
+
             </div>
 
             <div class="order-content">
                 <div class="order-section">
                     <h2 class="section-title">Состав заказа</h2>
                     <div class="order-items">
-                        @foreach($order->orderItems as $item)
+                        @foreach($orderItems as $item)
                         <div class="order-item">
                             <div class="item-image">
                                 <img src="{{ asset('images/' . $item->product->image) }}" alt="{{ $item->product->name_product }}">
@@ -79,8 +85,7 @@
             </div>
 
             <div class="order-actions">
-                <a href="{{ route('home') }}" class="btn-primary">Продолжить покупки</a>
-                <a href="{{ route('profile.show') }}" class="btn-secondary">Личный кабинет</a>
+                <a href="{{ route('profile.show') }}#order-history" class="btn-back">← Вернуться к списку заказов</a>
             </div>
         </div>
     </main>

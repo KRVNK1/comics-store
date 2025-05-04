@@ -43,14 +43,9 @@
     font-weight: 500;
 }
 
-.status-pending {
+.status-processing {
     background-color: #fff3cd;
     color: #856404;
-}
-
-.status-processing {
-    background-color: #cce5ff;
-    color: #004085;
 }
 
 .status-completed {
@@ -58,7 +53,7 @@
     color: #155724;
 }
 
-.status-cancelled {
+.status-canceled {
     background-color: #f8d7da;
     color: #721c24;
 }
@@ -188,7 +183,7 @@
 .btn-primary {
     display: inline-block;
     padding: 12px 24px;
-    background-color: #ff5722;
+    background-color: #0277BD;
     color: white;
     border-radius: 5px;
     text-decoration: none;
@@ -197,7 +192,7 @@
 }
 
 .btn-primary:hover {
-    background-color: #e64a19;
+    background-color: #01579B;
 }
 
 .btn-secondary {
