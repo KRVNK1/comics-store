@@ -57,7 +57,7 @@
                 <div class="cart-item">
                     <div class="cart-item-product">
                         <div class="cart-item-image">
-                            <img src="{{ asset('images/' . $item->product->image) }}" alt="{{ $item->product->name_product }}">
+                            <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name_product }}">
                         </div>
                         <div class="cart-item-details">
                             <h3 class="cart-item-title">{{ $item->product->name_product }}</h3>
@@ -123,7 +123,7 @@
                 <div class="product-card">
                     <a href="{{ route('products.show', $product->id) }}">
                         <div class="product-image">
-                            <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name_product }}">
+                            <img src="{{ $product->image_url }}" alt="{{ $product->name_product }}">
                         </div>
                         <div class="product-info">
                             <h3 class="product-title">{{ $product->name_product }}</h3>

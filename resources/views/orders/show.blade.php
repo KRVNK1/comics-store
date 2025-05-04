@@ -46,7 +46,7 @@
                         @foreach($orderItems as $item)
                         <div class="order-item">
                             <div class="item-image">
-                                <img src="{{ asset('images/' . $item->product->image) }}" alt="{{ $item->product->name_product }}">
+                                <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name_product }}">
                             </div>
                             <div class="item-details">
                                 <h3 class="item-title">{{ $item->product->name_product }}</h3>

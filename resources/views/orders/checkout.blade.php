@@ -40,7 +40,7 @@
                     <div class="checkout-item">
                         <div class="checkout-item-product">
                             <div class="checkout-item-image">
-                                <img src="{{ asset('images/' . $item->product->image) }}" alt="{{ $item->product->name_product }}">
+                                <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name_product }}">
                             </div>
                             <div class="checkout-item-details">
                                 <h3 class="checkout-item-title">{{ $item->product->name_product }}</h3>

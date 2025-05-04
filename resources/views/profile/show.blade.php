@@ -162,8 +162,8 @@
                             <td>{{ $order->order_number }}</td>
                             <td class="order-product-cell">
                                 <div class="order-product-info">
-                                    <div class="order-product-image">
-                                        <img src="{{ asset('images/' . $firstItem->product->image) }}" alt="{{ $firstItem->product->name_product }}">
+                                    <div class="order-product-image">   
+                                        <img src="{{ $firstItem->product->image_url }}" alt="{{ $firstItem->product->name_product }}">
                                     </div>
                                     <div class="order-product-details">
                                         <span class="product-name">{{ $firstItem->product->name_product }}</span>
