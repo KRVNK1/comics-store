@@ -54,12 +54,12 @@
                     @error('price')
                     <span class="form-error">{{ $message }}</span>
                     @enderror
-                </div>  
+                </div>
 
                 <div class="form-group">
                     <label>Текущее изображение</label>
                     <div class="current-image">
-                        <img src="{{ asset('images/comics/' . $product->image) }}" alt="{{ $product->name_product }}">
+                        <img src="{{ $product->image_url }}" alt="{{ $product->name_product }}">
                     </div>
                 </div>
 

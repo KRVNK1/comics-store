@@ -50,43 +50,43 @@
         <div class="catalog-container">
             <!-- Фильтры -->
             <aside class="sidebar">
-            <nav class="category-menu">
-              <ul>
-                <li>
-                  <a href="{{ route('products.index') }}" class="active">
-                    <i class="icon home-icon">
-                      <img src="{{ asset('images/icons/home.png') }}" alt="">
-                    </i>Каталог
-                  </a>
-                </li>
-                @foreach($categories as $category)
-                <li>
-                  <a href="{{ route('categories.show', $category->id) }}">
-                    <i class="icon category-icon">
+                <nav class="category-menu">
+                    <ul>
+                        <li>
+                            <a href="{{ route('products.index') }}" class="active">
+                                <i class="icon home-icon">
+                                    <img src="{{ asset('images/icons/home.png') }}" alt="">
+                                </i>Каталог
+                            </a>
+                        </li>
+                        @foreach($categories as $category)
+                        <li>
+                            <a href="{{ route('categories.show', $category->id) }}">
+                                <i class="icon category-icon">
 
-                      @if( $category -> name_category == 'Супергерои')
-                      <img src="{{ asset('images/icons/superhero.png') }}" alt="">
-                      @elseif ( $category -> name_category == 'Фэнтези')
-                      <img src="{{ asset('images/icons/fantasy.png') }}" alt="">
-                      @elseif ( $category -> name_category == 'Научная фантастика')
-                      <img src="{{ asset('images/icons/fantastic.png') }}" alt="">
-                      @elseif ( $category -> name_category == 'Хоррор')
-                      <img src="{{ asset('images/icons/horror.png') }}" alt="">
-                      @elseif ( $category -> name_category == 'Приключения')
-                      <img src="{{ asset('images/icons/adventures.png') }}" alt="">
-                      @elseif ( $category -> name_category == 'Манга')
-                      <img src="{{ asset('images/icons/manga.png') }}" alt="">
-                      @else
-                      <img src="{{ asset('images/icons/child-comics.png') }}" alt="">
-                      @endif
+                                    @if( $category -> name_category == 'Супергерои')
+                                    <img src="{{ asset('images/icons/superhero.png') }}" alt="">
+                                    @elseif ( $category -> name_category == 'Фэнтези')
+                                    <img src="{{ asset('images/icons/fantasy.png') }}" alt="">
+                                    @elseif ( $category -> name_category == 'Научная фантастика')
+                                    <img src="{{ asset('images/icons/fantastic.png') }}" alt="">
+                                    @elseif ( $category -> name_category == 'Хоррор')
+                                    <img src="{{ asset('images/icons/horror.png') }}" alt="">
+                                    @elseif ( $category -> name_category == 'Приключения')
+                                    <img src="{{ asset('images/icons/adventures.png') }}" alt="">
+                                    @elseif ( $category -> name_category == 'Манга')
+                                    <img src="{{ asset('images/icons/manga.png') }}" alt="">
+                                    @else
+                                    <img src="{{ asset('images/icons/child-comics.png') }}" alt="">
+                                    @endif
 
-                    </i>{{ $category->name_category }}
-                  </a>
-                </li>
-                @endforeach
-              </ul>
-            </nav>
-          </aside>
+                                </i>{{ $category->name_category }}
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
+                </nav>
+            </aside>
 
             <!-- Список товаров -->
             <div class="catalog-products">
@@ -100,7 +100,7 @@
                     <div class="product-card" style="width: 100%;">
                         <a href="{{ route('products.show', $product->id) }}" class="product-link">
                             <div class="product-image">
-                                <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name_product }}">
+                                <img src="{{ $product->image_url }}" alt="{{ $product->name_product }}">
                             </div>
                             <div class="product-info">
                                 <h3 class="product-title">{{ $product->name_product }}</h3>
