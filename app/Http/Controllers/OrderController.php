@@ -80,7 +80,7 @@ class OrderController extends Controller
         // Создаем заказ
         $order = Order::create([
             'user_id' => $user->id,
-            'order_number' => 'ORD-' . time(),
+            'order_number' => time(),
             'total_amount' => $totalPrice,
             'status' => 'processing',
             'shipping_address' => $request->address,

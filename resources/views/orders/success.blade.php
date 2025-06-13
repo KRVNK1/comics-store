@@ -22,7 +22,6 @@
             <div class="order-header">
                 <div class="">
                     <h1 class="order-title">Заказ {{ $order->order_number }}</h1>
-                    <div class="order-date">Дата заказа: {{ $order->created_at->format('d.m.Y H:i') }}</div>
                 </div>
                 <div class="order-status">
                     <span class="status-badge status-processing">

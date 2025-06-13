@@ -92,41 +92,6 @@
                 </div>
             </form>
 
-            <form action="{{ route('profile.change-password') }}" method="POST" class="profile-form mt-30">
-                @csrf
-                @method('PUT')
-
-                <h2 class="profile-section-title">Поменять Пароль</h2>
-
-                <div class="profile-form-row">
-                    <div class="profile-form-group">
-                        <label for="current_password">Текущий пароль</label>
-                        <input type="password" id="current_password" name="current_password" class="profile-input">
-                        @error('current_password')
-                        <span class="profile-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="profile-form-row">
-                    <div class="profile-form-group">
-                        <label for="password">Новый пароль</label>
-                        <input type="password" id="password" name="password" class="profile-input">
-                        @error('password')
-                        <span class="profile-error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="profile-form-group">
-                        <label for="password_confirmation">Подтвердите новый пароль</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation" class="profile-input">
-                    </div>
-                </div>
-
-                <div class="profile-form-actions">
-                    <button type="submit" class="profile-submit-btn">изменить пароль</button>
-                </div>
-            </form>
         </div>
 
         <!-- Вкладка истории заказов -->

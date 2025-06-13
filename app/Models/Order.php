@@ -33,7 +33,7 @@ class Order extends Model
         parent::boot();
 
         static::creating(function ($order) {
-            $order->order_number = 'ORD-' . time();
+            $order->order_number = time();
         });
     }
     
