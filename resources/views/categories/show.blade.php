@@ -22,9 +22,9 @@
                 <nav class="category-menu">
                     <ul>
                         <li><a href="{{ route('home') }}"><i class="icon home-icon">
-                      <img src="{{ asset('images/icons/home.png') }}" alt="">
+                                    <img src="{{ asset('images/icons/home.png') }}" alt="">
 
-                        </i>Главная</a></li>
+                                </i>Главная</a></li>
                         @foreach($categories as $cat)
                         <li>
                             <a href="{{ route('categories.show', $cat->id) }}"
@@ -68,7 +68,7 @@
                     <div class="product-card">
                         <a href="{{ route('products.show', $product->id) }}">
                             <div class="product-image">
-                                <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name_product }}">
+                                <img src="{{ $product->image_url }}" alt="{{ $product->name_product }}">
                             </div>
                             <div class="product-info">
                                 <h3 class="product-title">{{ $product->name_product }}</h3>
