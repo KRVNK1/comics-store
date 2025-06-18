@@ -55,11 +55,8 @@
     <!-- Боковое меню и контент -->
     <div class="main-content">
 
-      <!-- Основной контент -->
       <section class="content">
-        <!-- Главный баннер -->
         <div class="main-banner">
-          <!-- Боковое меню -->
           <aside class="sidebar">
             <nav class="category-menu">
               <ul>
